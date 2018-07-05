@@ -26,3 +26,11 @@ h3{
 #radioButton{
     margin: 10px;
 }
+
+.wrongAnswer{
+    color: red;
+}
+
+.correctAnswer{
+    color: green;
+}
