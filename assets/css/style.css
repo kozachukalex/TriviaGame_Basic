@@ -2,23 +2,35 @@ html{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    min-height: 100vh;
 }
-
+body{ 
+    background: url(../images/simpsonsBG.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;   
+}
 header{
+    background: none;
     text-align: center;
-    margin-top: 40px;
+    margin-top: 60px;
 }
 
-h1{
-    font-size: 60px;
+h1{ 
+    font-size: 72px;
+    color: yellow;
+}
+#content{
+    display: none;
 }
 
 .answerBox{
-    border: 2px black solid;
+    border: 2px #fff solid;
     font-size: 24px;
 }
-
+h2{
+    font-size: 48px;
+}
 h3{
     margin: 30px 0 10px;
 }
@@ -26,11 +38,44 @@ h3{
 #radioButton{
     margin: 10px;
 }
-
+#quiz{
+    background: rgb(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 10px 40px 25px;
+    margin-top: 30px;
+}
+#results{
+    margin-top: 40px;
+}
+#submit{
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+    width: 200px;
+    font-size: 24px;
+}
+#incorrect{
+    font-size: 24px;
+}
 .wrongAnswer{
     color: red;
+}
+#results{
+    font-size: 40px;
 }
 
 .correctAnswer{
     color: green;
+}
+
+#tally{
+    display: none;
+    background: rgb(0, 0, 0, 0.7);
+    padding: 50px;
+    color: #fff;
+}
+#score{
+    text-align: center;
+    margin-bottom: 40px;
 }

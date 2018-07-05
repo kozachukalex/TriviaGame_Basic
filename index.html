@@ -21,19 +21,23 @@
 
 </head>
 
-<body>
+<body class="container">
     <header class="container">
         <h1> Simpson's Trivia</h1>
+        <div> timer here </div>
+        <button id="start"> Start Game </button>
     </header>
+    <div id="content">
+        <div class="container" id="quiz">
 
-    <div class="container" id="quiz">
-
-    </div>
-
-    <div class="container" id="results">
-        <button id="submit"> Submit Answers</button>
-        <p id="correct"></p>
-        <p id="incorrect"></p>
+        </div>
+        <div class="container d-flex flex-column" id="results">
+            <button id="submit"> Submit Answers</button>
+            <div id = "tally">
+                <p id="score"></p>
+                <p id="incorrect"></p>
+            </div>
+        </div>
     </div>
 
 </body>
