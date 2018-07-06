@@ -1,5 +1,6 @@
 $(function () {
 
+    // Note on possible change - Use less CSS, use more jquery to populate elements when required instead of display none/block
     var myQuiz = {
         questions: [
             "1) What town does the Simpson family live in?",
@@ -23,10 +24,10 @@ $(function () {
             "4": "0",
         }
     }
-
-
+    var timeRunning = false
 
     function makeQuestions() {
+        $("#quiz").css('background', 'rgb(0, 0, 0, 0.7)');
 
         for (i = 0; i < myQuiz.questions.length; i++) {
             var value = 0
@@ -42,25 +43,65 @@ $(function () {
             })
         }
     }
-    $("#start").on('click', function () {
-        $("#content").css('display', 'block');
-        $(this).remove();
-    })
-    $("#submit").on('click', function createScore() {
+    function timer(){
+        t = 60;
+        intervalId = setInterval(count, 1000)
+        currentTime = timeConverter(t)
+        $("#timer").text(currentTime)
+        if (timeRunning){
+            count()
+
+        }
+    }
+
+    function timeConverter(t) {
+
+        var minutes = Math.floor(t / 60);
+        var seconds = t - (minutes * 60);
+    
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+    
+        if (minutes === 0) {
+          minutes = "0";
+        }
+        else if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+    
+        return minutes + ":" + seconds;
+      }
+
+    function count(){
+        t--;
+        currentTime = timeConverter(t);
+        $("#timer").text(currentTime)
+        if (t === 0){
+            clearInterval(intervalId)
+            alert("Out of time! Here's how you did")
+            createScore()
+        }
+    }
+
+    function createScore() {
+        clearInterval(intervalId)
         var correct = 0
 
-        $(this).remove()  
+        $("#submit").remove()  
         $answerBox = $(".answerBox");
         $answerBox.each(function () {
             var answer = $(this).find("input:checked");
             var key = answer.attr("name")
             var val = answer.attr("value")
-            if (myQuiz.correctAnswers[key] !== val) {
+            console.log(myQuiz.correctAnswers[key])
+            console.log(val)
+            if (myQuiz.correctAnswers[key] === val) {
+                correct++;
+            }
+            else if (myQuiz.correctAnswers[key] !== val) {
                 var correctAnswer = myQuiz.correctAnswers[key]
                 $("#incorrect").append(myQuiz.questions[key] + "<span class='wrongAnswer'> " + myQuiz.choices[key][val] + "</span> <br> <div class='correctAnswer'>Correct Answer: " + myQuiz.choices[key][correctAnswer] + "</div><br>")
-            }
-            else if (myQuiz.correctAnswers[key] === val) {
-                correct++;
             }
         })
         $("#quiz").remove();
@@ -69,7 +110,23 @@ $(function () {
         $("#score").append("<h2> Final Score: " + totalCorrect + "%")
         
 
+    }
+
+    $("#start").on('click', function () {
+        $("#submit").css('display','block')
+        $("#content").css('display', 'block');
+        $(this).remove();
+        makeQuestions()
+        setTimeout(timer(), 1000);
+        
+        timeRunning = true;
     })
 
-    makeQuestions()
+    $("#submit").on('click', function(){
+        createScore();
+    })
+    
+
+
+    
 })
