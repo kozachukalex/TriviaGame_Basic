@@ -24,7 +24,12 @@ $(function () {
             "4": "0",
         }
     }
-    var timeRunning = false
+    function prepare(){
+    timeRunning = false;
+    t = 60;
+    currentTime = timeConverter(t);
+    $("#timer").text(currentTime);
+    }
 
     function makeQuestions() {
         $("#quiz").css('background', 'rgb(0, 0, 0, 0.7)');
@@ -44,7 +49,6 @@ $(function () {
         }
     }
     function timer(){
-        t = 60;
         intervalId = setInterval(count, 1000)
         currentTime = timeConverter(t)
         $("#timer").text(currentTime)
@@ -97,16 +101,16 @@ $(function () {
             console.log(myQuiz.correctAnswers[key])
             console.log(val)
             if (myQuiz.correctAnswers[key] === val) {
-                correct++;
-            }
+                correct++; // unanswered are undefined, but still being counted as correct?
+            }            
             else if (myQuiz.correctAnswers[key] !== val) {
                 var correctAnswer = myQuiz.correctAnswers[key]
                 $("#incorrect").append(myQuiz.questions[key] + "<span class='wrongAnswer'> " + myQuiz.choices[key][val] + "</span> <br> <div class='correctAnswer'>Correct Answer: " + myQuiz.choices[key][correctAnswer] + "</div><br>")
             }
         })
         $("#quiz").remove();
-        var totalCorrect = correct * 20;
         $("#tally").css('display','block')
+        var totalCorrect = correct * 20;
         $("#score").append("<h2> Final Score: " + totalCorrect + "%")
         
 
@@ -126,7 +130,8 @@ $(function () {
         createScore();
     })
     
-
+    //calling prepare in order to create initial timer
+    prepare();
 
     
 })
