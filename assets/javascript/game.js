@@ -24,11 +24,11 @@ $(function () {
             "4": "0",
         }
     }
-    function prepare(){
-    timeRunning = false;
-    t = 60;
-    currentTime = timeConverter(t);
-    $("#timer").text(currentTime);
+    function prepare() {
+        timeRunning = false;
+        t = 60;
+        currentTime = timeConverter(t);
+        $("#timer").text(currentTime);
     }
 
     function makeQuestions() {
@@ -38,21 +38,22 @@ $(function () {
             var value = 0
             var question = myQuiz.questions[i];
             var $questionBox = $("<div>", { class: "questionBox" }).append("<h3>" + question);
-            var $answerBox = $("<div>", { class: "answerBox" })
+            var $answerBox = $("<div>", { class: "answerBox", value: i})
 
             $("#quiz").append($questionBox).append($answerBox)
 
             myQuiz.choices[i].forEach(function (option) {
-                $($answerBox).append("<label><input id='radioButton' type='radio' name=" + i + " value=" + value + ">" + option)
+                $($answerBox).append("<label id='label'><input id='radioButton' type='radio' name=" + i + " value=" + value + ">" + option)
                 value++;
             })
         }
     }
-    function timer(){
+    
+    function timer() {
         intervalId = setInterval(count, 1000)
         currentTime = timeConverter(t)
         $("#timer").text(currentTime)
-        if (timeRunning){
+        if (timeRunning) {
             count()
 
         }
@@ -62,26 +63,26 @@ $(function () {
 
         var minutes = Math.floor(t / 60);
         var seconds = t - (minutes * 60);
-    
+
         if (seconds < 10) {
-          seconds = "0" + seconds;
+            seconds = "0" + seconds;
         }
-    
+
         if (minutes === 0) {
-          minutes = "0";
+            minutes = "0";
         }
         else if (minutes < 10) {
-          minutes = "0" + minutes;
+            minutes = "0" + minutes;
         }
-    
-        return minutes + ":" + seconds;
-      }
 
-    function count(){
+        return minutes + ":" + seconds;
+    }
+
+    function count() {
         t--;
         currentTime = timeConverter(t);
         $("#timer").text(currentTime)
-        if (t === 0){
+        if (t === 0) {
             clearInterval(intervalId)
             alert("Out of time! Here's how you did")
             createScore()
@@ -92,46 +93,52 @@ $(function () {
         clearInterval(intervalId)
         var correct = 0
 
-        $("#submit").remove()  
+        $("#submit").remove()
         $answerBox = $(".answerBox");
         $answerBox.each(function () {
+            var questionNumber = $(this).attr('value');
             var answer = $(this).find("input:checked");
             var key = answer.attr("name")
             var val = answer.attr("value")
-            console.log(myQuiz.correctAnswers[key])
-            console.log(val)
-            if (myQuiz.correctAnswers[key] === val) {
-                correct++; // unanswered are undefined, but still being counted as correct?
-            }            
+            if (answer.length === 0){   //ugly way of getting this done. Could remove name from labels, keep to element, and just pull var key from element #answerBox instead of label
+                var correctAnswer = myQuiz.correctAnswers[questionNumber]
+                $("#incorrect").append(myQuiz.questions[questionNumber] + "<span class='wrongAnswer'> You did answer. </span> <br> <div class='correctAnswer'>Correct Answer: " + myQuiz.choices[questionNumber][correctAnswer] + "</div><br>")   
+                     
+            }
+
             else if (myQuiz.correctAnswers[key] !== val) {
                 var correctAnswer = myQuiz.correctAnswers[key]
                 $("#incorrect").append(myQuiz.questions[key] + "<span class='wrongAnswer'> " + myQuiz.choices[key][val] + "</span> <br> <div class='correctAnswer'>Correct Answer: " + myQuiz.choices[key][correctAnswer] + "</div><br>")
             }
+            else {
+                correct++;
+            }
+
         })
         $("#quiz").remove();
-        $("#tally").css('display','block')
+        $("#tally").css('display', 'block')
         var totalCorrect = correct * 20;
         $("#score").append("<h2> Final Score: " + totalCorrect + "%")
-        
+
 
     }
 
     $("#start").on('click', function () {
-        $("#submit").css('display','block')
+        $("#submit").css('display', 'block')
         $("#content").css('display', 'block');
         $(this).remove();
         makeQuestions()
         setTimeout(timer(), 1000);
-        
+
         timeRunning = true;
     })
 
-    $("#submit").on('click', function(){
+    $("#submit").on('click', function () {
         createScore();
     })
-    
+
     //calling prepare in order to create initial timer
     prepare();
 
-    
+
 })
