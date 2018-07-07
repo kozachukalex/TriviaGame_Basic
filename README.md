@@ -3,8 +3,9 @@ Basic Trivia Game
 
 
 Basic trivia game that utilized jQuery, timers, and radio buttons. After initially creating the code out of a lot of html, I worked
-to reduce the HTML into jQuery calls that to populate questions, answers, elements, classes, and id's from jQuery. I would like to
-revisit the project to clean up much of this that creates the code a bit more hectic and sloppy than I would have preferred.
+to reduce the HTML into jQuery calls to populate questions, answers, elements, classes, and id's from jQuery. This allows me to scale the game to add more questions and their choices without needing to change much to acommodate that.
+
+I would like to revisit the project to clean up much of this that creates the code a bit more hectic and sloppy than I would have preferred.
 
 Simpson's Trivia!
 
